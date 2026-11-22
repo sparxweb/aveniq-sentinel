@@ -1,0 +1,80 @@
+{
+  "status": "DIRECTORY_EMPTY",
+  "directory": "C:\\Users\\HP\\OneDrive\\Desktop\\NEURALSHIELD AI\\data\\raw\\cic_ids2017",
+  "directory_exists": true,
+  "total_files_found": 0,
+  "expected_benchmark_files": 8,
+  "expected_present_count": 0,
+  "is_complete_benchmark": false,
+  "total_size_mb": 0.0,
+  "empty_files": [],
+  "expected_inventory": [
+    {
+      "filename": "Friday-WorkingHours-Afternoon-DDos.pcap_ISCX.csv",
+      "present": false,
+      "size_mb": 0.0,
+      "is_empty": false,
+      "path": null
+    },
+    {
+      "filename": "Friday-WorkingHours-Afternoon-PortScan.pcap_ISCX.csv",
+      "present": false,
+      "size_mb": 0.0,
+      "is_empty": false,
+      "path": null
+    },
+    {
+      "filename": "Friday-WorkingHours-Morning.pcap_ISCX.csv",
+      "present": false,
+      "size_mb": 0.0,
+      "is_empty": false,
+      "path": null
+    },
+    {
+      "filename": "Monday-WorkingHours.pcap_ISCX.csv",
+      "present": false,
+      "size_mb": 0.0,
+      "is_empty": false,
+      "path": null
+    },
+    {
+      "filename": "Thursday-WorkingHours-Afternoon-Infilteration.pcap_ISCX.csv",
+      "present": false,
+      "size_mb": 0.0,
+      "is_empty": false,
+      "path": null
+    },
+    {
+      "filename": "Thursday-WorkingHours-Morning-WebAttacks.pcap_ISCX.csv",
+      "present": false,
+      "size_mb": 0.0,
+      "is_empty": false,
+      "path": null
+    },
+    {
+      "filename": "Tuesday-WorkingHours.pcap_ISCX.csv",
+      "present": false,
+      "size_mb": 0.0,
+      "is_empty": false,
+      "path": null
+    },
+    {
+      "filename": "Wednesday-workingHours.pcap_ISCX.csv",
+      "present": false,
+      "size_mb": 0.0,
+      "is_empty": false,
+      "path": null
+    }
+  ],
+  "extra_files": [],
+  "missing_expected_files": [
+    "Friday-WorkingHours-Afternoon-DDos.pcap_ISCX.csv",
+    "Friday-WorkingHours-Afternoon-PortScan.pcap_ISCX.csv",
+    "Friday-WorkingHours-Morning.pcap_ISCX.csv",
+    "Monday-WorkingHours.pcap_ISCX.csv",
+    "Thursday-WorkingHours-Afternoon-Infilteration.pcap_ISCX.csv",
+    "Thursday-WorkingHours-Morning-WebAttacks.pcap_ISCX.csv",
+    "Tuesday-WorkingHours.pcap_ISCX.csv",
+    "Wednesday-workingHours.pcap_ISCX.csv"
+  ]
+}

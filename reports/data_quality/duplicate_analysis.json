@@ -1,0 +1,8 @@
+{
+  "total_records": 1505,
+  "exact_duplicate_rows": 5,
+  "duplicate_percentage": 0.33,
+  "duplicate_column_names": [],
+  "impact_assessment": "Exact duplicate network flow records artificially inflate evaluation metrics if randomly partitioned across train and test sets (data leakage). Deduplication is recommended prior to model training.",
+  "deduplication_recommended": true
+}

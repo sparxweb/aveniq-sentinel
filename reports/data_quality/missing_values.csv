@@ -1,0 +1,40 @@
+column_name,missing_count,missing_percentage,dtype
+Flow IAT Mean,1,0.0664,float64
+Destination Port,0,0.0,int64
+Fwd Header Length,0,0.0,int64
+Bwd Header Length,0,0.0,int64
+Fwd Packets/s,0,0.0,float64
+Bwd Packets/s,0,0.0,float64
+Min Packet Length,0,0.0,float64
+Max Packet Length,0,0.0,float64
+Packet Length Mean,0,0.0,float64
+FIN Flag Count,0,0.0,int64
+SYN Flag Count,0,0.0,int64
+RST Flag Count,0,0.0,int64
+PSH Flag Count,0,0.0,int64
+ACK Flag Count,0,0.0,int64
+URG Flag Count,0,0.0,int64
+Down/Up Ratio,0,0.0,float64
+Average Packet Size,0,0.0,float64
+Init_Win_bytes_forward,0,0.0,int64
+Init_Win_bytes_backward,0,0.0,int64
+Fwd Header Length.1,0,0.0,int64
+Flow IAT Min,0,0.0,float64
+Flow Duration,0,0.0,float64
+Flow IAT Max,0,0.0,float64
+Total Fwd Packets,0,0.0,int64
+Total Backward Packets,0,0.0,int64
+Total Length of Fwd Packets,0,0.0,float64
+Total Length of Bwd Packets,0,0.0,float64
+Fwd Packet Length Max,0,0.0,float64
+Fwd Packet Length Min,0,0.0,float64
+Fwd Packet Length Mean,0,0.0,float64
+Fwd Packet Length Std,0,0.0,float64
+Bwd Packet Length Max,0,0.0,float64
+Bwd Packet Length Min,0,0.0,float64
+Bwd Packet Length Mean,0,0.0,float64
+Bwd Packet Length Std,0,0.0,float64
+Flow Bytes/s,0,0.0,float64
+Flow Packets/s,0,0.0,float64
+Flow IAT Std,0,0.0,float64
+Label,0,0.0,object

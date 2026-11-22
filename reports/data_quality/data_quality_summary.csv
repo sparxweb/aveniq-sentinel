@@ -1,0 +1,10 @@
+Metric,Value,Status
+Total Analyzed Rows,1505,INFO
+Total Columns,39,INFO
+Memory Footprint (MB),0.53,INFO
+Data Quality Score,96.2/100.0,OPTIMAL
+Total Missing Cells,1,WARNING
+Total Infinite Values,4,CRITICAL
+Exact Duplicate Rows,5 (0.33%),WARNING
+Negative Non-Negative Features,1,WARNING
+Zero Variance (Constant) Columns,2,NOTICE

@@ -1,0 +1,5 @@
+attack_class,count,percentage,binary_category
+BENIGN,1193,79.2691,Benign
+DDoS,158,10.4983,Attack
+PortScan,112,7.4419,Attack
+Bot,42,2.7907,Attack

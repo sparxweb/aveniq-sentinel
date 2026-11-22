@@ -1,0 +1,101 @@
+{
+  "context_name": "Dataset",
+  "total_rows": 1505,
+  "total_columns": 39,
+  "memory_mb": 0.53,
+  "total_missing_values": 1,
+  "rows_with_missing": 1,
+  "columns_with_missing": {
+    "Flow IAT Mean": 1
+  },
+  "empty_columns": [],
+  "total_infinite_values": 4,
+  "pos_inf_count": 2,
+  "neg_inf_count": 2,
+  "columns_with_infinite": {
+    "Flow Bytes/s": 3,
+    "Flow Packets/s": 1
+  },
+  "duplicate_rows": 5,
+  "duplicate_percentage": 0.33,
+  "duplicate_column_names": [],
+  "dtypes": {
+    "Destination Port": "int64",
+    "Flow Duration": "float64",
+    "Total Fwd Packets": "int64",
+    "Total Backward Packets": "int64",
+    "Total Length of Fwd Packets": "float64",
+    "Total Length of Bwd Packets": "float64",
+    "Fwd Packet Length Max": "float64",
+    "Fwd Packet Length Min": "float64",
+    "Fwd Packet Length Mean": "float64",
+    "Fwd Packet Length Std": "float64",
+    "Bwd Packet Length Max": "float64",
+    "Bwd Packet Length Min": "float64",
+    "Bwd Packet Length Mean": "float64",
+    "Bwd Packet Length Std": "float64",
+    "Flow Bytes/s": "float64",
+    "Flow Packets/s": "float64",
+    "Flow IAT Mean": "float64",
+    "Flow IAT Std": "float64",
+    "Flow IAT Max": "float64",
+    "Flow IAT Min": "float64",
+    "Fwd Header Length": "int64",
+    "Fwd Header Length.1": "int64",
+    "Bwd Header Length": "int64",
+    "Fwd Packets/s": "float64",
+    "Bwd Packets/s": "float64",
+    "Min Packet Length": "float64",
+    "Max Packet Length": "float64",
+    "Packet Length Mean": "float64",
+    "FIN Flag Count": "int64",
+    "SYN Flag Count": "int64",
+    "RST Flag Count": "int64",
+    "PSH Flag Count": "int64",
+    "ACK Flag Count": "int64",
+    "URG Flag Count": "int64",
+    "Down/Up Ratio": "float64",
+    "Average Packet Size": "float64",
+    "Init_Win_bytes_forward": "int64",
+    "Init_Win_bytes_backward": "int64",
+    "Label": "object"
+  },
+  "numeric_column_count": 38,
+  "target_summary": {
+    "target_column": "Label",
+    "classes_detected": 4,
+    "multiclass_distribution": {
+      "BENIGN": 1193,
+      "DDoS": 158,
+      "PortScan": 112,
+      "Bot": 42
+    },
+    "multiclass_percentages": {
+      "BENIGN": 79.269,
+      "DDoS": 10.498,
+      "PortScan": 7.442,
+      "Bot": 2.791
+    },
+    "binary_distribution": {
+      "Benign": 1193,
+      "Attack": 312
+    },
+    "binary_percentages": {
+      "Benign": 79.27,
+      "Attack": 20.73
+    },
+    "is_imbalanced": false,
+    "missing_labels": 0
+  },
+  "numerical_anomalies": {
+    "negative_value_violations": {
+      "Flow Bytes/s": 2
+    },
+    "zero_duration_flows_with_packets": 0,
+    "constant_columns": [
+      "RST Flag Count",
+      "URG Flag Count"
+    ]
+  },
+  "quality_score": 96.2
+}
