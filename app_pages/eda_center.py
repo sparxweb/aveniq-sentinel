@@ -87,33 +87,48 @@ def render_eda_center():
         if label_col:
             comp_result = compare_benign_vs_attack(df, label_col=label_col)
 
-            c_b1, c_b2 = st.columns(2)
-            with c_b1:
-                st.markdown("##### Flow Metrics Divergence (Log Scale)")
-                fig_bars = plot_attack_comparison_bars(comp_result)
-                st.plotly_chart(fig_bars, use_container_width=True)
+            if "error" in comp_result:
+                st.error(f"Comparative analysis error: {comp_result['error']}")
+            elif "warning" in comp_result:
+                st.warning(comp_result["warning"])
+            else:
+                c_b1, c_b2 = st.columns(2)
+                with c_b1:
+                    st.markdown("##### Flow Metrics Divergence (Log Scale)")
+                    fig_bars = plot_attack_comparison_bars(comp_result)
+                    st.plotly_chart(fig_bars, use_container_width=True)
 
-            with c_b2:
-                st.markdown("##### TCP Control Flag Activity Rates (%)")
-                flag_data = comp_result.get("tcp_flag_comparisons", {})
-                fig_flags = plot_tcp_flags_breakdown(flag_data)
-                st.plotly_chart(fig_flags, use_container_width=True)
+                with c_b2:
+                    st.markdown("##### TCP Control Flag Activity Rates (%)")
+                    flag_data = comp_result.get("tcp_flag_comparisons", {})
+                    fig_flags = plot_tcp_flags_breakdown(flag_data)
+                    st.plotly_chart(fig_flags, use_container_width=True)
 
-            # Divergence Table
-            feat_comps = comp_result.get("feature_comparisons", {})
-            if feat_comps:
-                st.markdown("##### Detailed Metric Divergence Ratio Table")
-                rows = []
-                for feat, stats in feat_comps.items():
-                    rows.append({
-                        "Feature": feat,
-                        "Benign Median": f"{stats['benign_median']:.2f}",
-                        "Attack Median": f"{stats['attack_median']:.2f}",
-                        "Benign IQR": f"{stats['benign_iqr']:.2f}",
-                        "Attack IQR": f"{stats['attack_iqr']:.2f}",
-                        "Divergence Ratio": f"{stats['divergence_ratio']:.2f}x",
-                    })
-                st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
+                # Divergence Table
+                feat_comps = comp_result.get("feature_comparisons", {})
+                if feat_comps:
+                    st.markdown("##### Detailed Metric Divergence Ratio Table")
+                    rows = []
+                    for feat, stats in feat_comps.items():
+                        ratio = stats.get("divergence_ratio", stats.get("attack_to_benign_median_ratio", 1.0))
+                        rows.append({
+                            "Feature": feat,
+                            "Benign Median": f"{stats['benign_median']:.2f}",
+                            "Attack Median": f"{stats['attack_median']:.2f}",
+                            "Benign IQR": f"{stats['benign_iqr']:.2f}",
+                            "Attack IQR": f"{stats['attack_iqr']:.2f}",
+                            "Divergence Ratio": f"{ratio:.2f}x",
+                        })
+                    st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
+
+                # Empirical Findings Callout
+                findings = comp_result.get("empirical_findings", [])
+                if findings:
+                    st.markdown("##### 🔍 Empirical Insights")
+                    for finding in findings:
+                        st.info(finding)
+        else:
+            st.warning("No target label column identified in dataset for comparative analysis.")
 
     with tab_distributions:
         st.subheader("3. Feature Histograms & Density Profiles")
