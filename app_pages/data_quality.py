@@ -5,6 +5,11 @@ import streamlit as st
 import pandas as pd
 from pathlib import Path
 from config.settings import SAMPLE_DATA_DIR, RAW_DATA_DIR, DATA_QUALITY_REPORTS_DIR, UIThemeConfig
+from neuralshield.data.source_manager import (
+    load_active_dataset,
+    render_data_source_banner,
+    render_onboarding_guide,
+)
 from neuralshield.data.validation import audit_dataframe_quality, inspect_numerical_anomalies
 from neuralshield.data.cleaning import (
     normalize_column_names,
@@ -37,19 +42,16 @@ def render_data_quality():
         unsafe_allow_html=True,
     )
 
-    # Load dataset
-    sample_path = SAMPLE_DATA_DIR / "cic_ids2017_sample.csv"
-    if not sample_path.is_file():
-        sample_path = SAMPLE_DATA_DIR / "cic_ids2017_sample.parquet"
+    # Load dataset through unified source manager
+    raw_df, source_info = load_active_dataset()
+    render_data_source_banner(source_info)
 
-    if sample_path.is_file():
-        raw_df = pd.read_parquet(sample_path) if sample_path.suffix == ".parquet" else pd.read_csv(sample_path)
-    else:
-        st.warning("Sample dataset not found in `data/sample/`.")
+    if raw_df is None or raw_df.empty:
+        render_onboarding_guide()
         return
 
     # Compute audit
-    audit = audit_dataframe_quality(raw_df, target_col="label", context_name="Sample Capture")
+    audit = audit_dataframe_quality(raw_df, target_col="label", context_name=source_info.get("source_name", "Active Capture"))
     q_score = audit["quality_score"]
 
     # Top KPI row with animated quality gauge

@@ -10,6 +10,8 @@ from config.settings import (
     UIThemeConfig,
 )
 from neuralshield.data.discovery import inspect_dataset_inventory
+from neuralshield.data.source_manager import load_active_dataset, render_data_source_banner
+from neuralshield.utils.health import evaluate_system_health
 from neuralshield.visualization.charts import plot_quality_gauge
 
 theme = UIThemeConfig()
@@ -39,13 +41,13 @@ def render_overview():
         unsafe_allow_html=True,
     )
 
+    # Active dataset resolution and transparency banner
+    active_df, source_info = load_active_dataset()
+    render_data_source_banner(source_info)
+
     # Dataset inventory inspection
     inv = inspect_dataset_inventory(RAW_DATA_DIR)
-    has_raw = inv["is_complete_benchmark"] or inv["total_files_found"] > 0
-    sample_file = SAMPLE_DATA_DIR / "cic_ids2017_sample.parquet"
-    if not sample_file.is_file():
-        sample_file = SAMPLE_DATA_DIR / "cic_ids2017_sample.csv"
-    has_sample = sample_file.is_file()
+    health = evaluate_system_health(active_df)
 
     # Metric KPI cards row
     c1, c2, c3, c4 = st.columns(4)
@@ -66,8 +68,8 @@ def render_overview():
         )
 
     with c2:
-        src_label = "Real Benchmark (CIC-IDS2017)" if has_raw else ("Sample Fixture (1,505 Flows)" if has_sample else "No Data Loaded")
-        src_badge = "badge-emerald" if has_raw else ("badge-amber" if has_sample else "badge-crimson")
+        src_label = source_info.get("source_name", "No Data Loaded")
+        src_badge = source_info.get("badge_class", "badge-neutral")
         st.markdown(
             f"""
             <div style="background-color: #101614; border: 1px solid #1D2824; border-radius: 6px; padding: 14px 16px;">
@@ -76,7 +78,7 @@ def render_overview():
                     {src_label}
                 </div>
                 <span class="cyber-badge {src_badge}">
-                    {'Full PCAP Capture' if has_raw else 'Deterministic Baseline'}
+                    {source_info.get('source_type', 'UNKNOWN').upper()}
                 </span>
             </div>
             """,
@@ -152,3 +154,45 @@ def render_overview():
             """,
             unsafe_allow_html=True,
         )
+
+    # Truthful Component-Level Operational Health Section
+    st.markdown("<br><hr style='border-color: #1D2824;'>", unsafe_allow_html=True)
+    st.subheader("Component-Level Operational Health & Verification")
+    st.markdown(
+        "<p style='color: #8B9A91; font-size: 13px;'>"
+        "Continuous execution checks across core platform layers. Status is strictly derived from empirical runtime results."
+        "</p>",
+        unsafe_allow_html=True,
+    )
+
+    badge_map = {
+        "OPERATIONAL": "badge-emerald",
+        "DEGRADED": "badge-amber",
+        "ERROR": "badge-crimson",
+        "NO DATA": "badge-neutral",
+        "NOT TESTED": "badge-neutral",
+    }
+
+    comp_items = list(health["components"].items())
+    health_cols = st.columns(len(comp_items))
+    for col, (comp_name, comp_info) in zip(health_cols, comp_items):
+        formatted_name = comp_name.replace("_", " ").title()
+        status = comp_info["status"]
+        b_class = badge_map.get(status, "badge-neutral")
+        with col:
+            st.markdown(
+                f"""
+                <div style="background-color: #101614; border: 1px solid #1D2824; border-radius: 6px; padding: 12px; min-height: 110px;">
+                    <div style="color: #E8F0EB; font-size: 12px; font-weight: 600; margin-bottom: 6px;">
+                        {formatted_name}
+                    </div>
+                    <div>
+                        <span class="cyber-badge {b_class}">● {status}</span>
+                    </div>
+                    <div style="color: #8B9A91; font-size: 11px; margin-top: 6px; line-height: 1.3;">
+                        {comp_info['details']}
+                    </div>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )

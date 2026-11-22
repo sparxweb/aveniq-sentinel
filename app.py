@@ -21,6 +21,7 @@ if str(PROJECT_ROOT) not in sys.path:
 
 import streamlit as st
 from config.settings import UIThemeConfig
+from neuralshield.utils.health import evaluate_system_health
 from app_pages.overview import render_overview
 from app_pages.data_explorer import render_data_explorer
 from app_pages.data_quality import render_data_quality
@@ -136,6 +137,11 @@ def apply_cyber_theme() -> None:
                 color: #EF4444;
                 border: 1px solid rgba(239, 68, 68, 0.3);
             }}
+            .badge-cyan {{
+                background-color: rgba(6, 182, 212, 0.12);
+                color: #06B6D4;
+                border: 1px solid rgba(6, 182, 212, 0.3);
+            }}
             .badge-neutral {{
                 background-color: rgba(139, 154, 145, 0.12);
                 color: #8B9A91;
@@ -170,17 +176,21 @@ def render_sidebar_header() -> None:
 
 
 def render_sidebar_footer() -> None:
-    """Renders the system telemetry footer in the sidebar."""
+    """Renders the system telemetry footer in the sidebar with truthful health status."""
     st.sidebar.markdown("<br><hr style='border-color: #1D2824; margin: 12px 0;'>", unsafe_allow_html=True)
+    health = evaluate_system_health(st.session_state.get("active_df"))
+    overall_label = health.get("overall_label", "● SYSTEM OPERATIONAL")
+    badge_class = health.get("badge_class", "badge-emerald")
+
     st.sidebar.markdown(
-        """
+        f"""
         <div style="color: #8B9A91; font-size: 11px; line-height: 1.6;">
-            <div><b style="color: #E8F0EB;">Product:</b> Aveniq Sentinel v0.2.0</div>
+            <div><b style="color: #E8F0EB;">Product:</b> Aveniq Sentinel v0.2.1</div>
             <div><b style="color: #E8F0EB;">Startup:</b> Aveniq (sparxweb)</div>
             <div><b style="color: #E8F0EB;">Benchmark:</b> CIC-IDS2017</div>
             <div><b style="color: #E8F0EB;">Engine:</b> Python 3.11 / Streamlit 1.67</div>
             <div style="margin-top: 8px;">
-                <span class="cyber-badge badge-emerald">● SYSTEM OPERATIONAL</span>
+                <span class="cyber-badge {badge_class}">{overall_label}</span>
             </div>
             <div style="margin-top: 6px; font-size: 10px; color: #6B7280;">
                 Offline Sandbox • Zero Data Leakage

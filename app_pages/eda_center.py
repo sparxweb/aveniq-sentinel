@@ -4,6 +4,11 @@ import streamlit as st
 import pandas as pd
 from pathlib import Path
 from config.settings import SAMPLE_DATA_DIR, RAW_DATA_DIR, UIThemeConfig
+from neuralshield.data.source_manager import (
+    load_active_dataset,
+    render_data_source_banner,
+    render_onboarding_guide,
+)
 from neuralshield.analysis.comparisons import compare_benign_vs_attack
 from neuralshield.analysis.correlations import compute_correlation_matrix, find_high_correlation_pairs
 from neuralshield.analysis.distributions import analyze_class_balance
@@ -34,16 +39,14 @@ def render_eda_center():
         unsafe_allow_html=True,
     )
 
-    # Load dataset
-    sample_path = SAMPLE_DATA_DIR / "cic_ids2017_sample.parquet"
-    if not sample_path.is_file():
-        sample_path = SAMPLE_DATA_DIR / "cic_ids2017_sample.csv"
+    # Load dataset through unified source manager
+    df, source_info = load_active_dataset()
+    render_data_source_banner(source_info)
 
-    if not sample_path.is_file():
-        st.warning("No sample dataset available in `data/sample/`.")
+    if df is None or df.empty:
+        render_onboarding_guide()
         return
 
-    df = pd.read_parquet(sample_path) if sample_path.suffix == ".parquet" else pd.read_csv(sample_path)
     label_col = next((c for c in df.columns if c.strip().lower() == "label"), None)
 
     # 4 Comprehensive Analytical Tabs

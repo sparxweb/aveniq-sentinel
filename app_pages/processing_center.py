@@ -10,6 +10,11 @@ from config.settings import (
     DATA_QUALITY_REPORTS_DIR,
     UIThemeConfig,
 )
+from neuralshield.data.source_manager import (
+    load_active_dataset,
+    render_data_source_banner,
+    render_onboarding_guide,
+)
 from neuralshield.data.discovery import inspect_dataset_inventory
 from neuralshield.data.schema import compare_schemas
 from neuralshield.data.loader import DatasetLoader, downcast_numeric_dtypes
@@ -35,6 +40,10 @@ def render_processing_center():
         unsafe_allow_html=True,
     )
 
+    # Active dataset and transparency banner
+    test_df, source_info = load_active_dataset()
+    render_data_source_banner(source_info)
+
     p_col1, p_col2 = st.columns([1, 1])
 
     with p_col1:
@@ -54,12 +63,7 @@ def render_processing_center():
 
     with p_col2:
         st.subheader("2. Dataset Source & Memory Impact")
-        sample_path = SAMPLE_DATA_DIR / "cic_ids2017_sample.csv"
-        if not sample_path.is_file():
-            sample_path = SAMPLE_DATA_DIR / "cic_ids2017_sample.parquet"
-
-        if sample_path.is_file():
-            test_df = pd.read_parquet(sample_path) if sample_path.suffix == ".parquet" else pd.read_csv(sample_path)
+        if test_df is not None and not test_df.empty:
             orig_mb = test_df.memory_usage(deep=True).sum() / (1024 * 1024)
             _, opt_stats = downcast_numeric_dtypes(test_df)
             down_mb = opt_stats["optimized_memory_mb"]
@@ -87,6 +91,8 @@ def render_processing_center():
                 """,
                 unsafe_allow_html=True,
             )
+        else:
+            st.info("No active dataset loaded for memory telemetry.")
 
     st.markdown("<hr style='border-color: #1D2824; margin: 20px 0;'>", unsafe_allow_html=True)
 

@@ -200,3 +200,7 @@ def remove_target_leakage_features(
         logger.info(f"Filtered target-leakage features: {removed}")
         return df.drop(columns=removed, errors="ignore"), removed
     return df, []
+
+
+# Alias for backward and cross-module compatibility
+synthesize_domain_features = create_network_domain_features
