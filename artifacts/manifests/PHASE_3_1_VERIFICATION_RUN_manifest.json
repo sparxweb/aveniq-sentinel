@@ -1,0 +1,44 @@
+{
+  "experiment_id": "PHASE_3_1_VERIFICATION_RUN",
+  "created_at": "2026-11-23T18:00:00Z",
+  "dataset_name": "CIC-IDS2017-Sample",
+  "dataset_version": "1.0-deterministic",
+  "feature_schema_version": "3.1.0",
+  "train_period": [
+    "Monday",
+    "Tuesday",
+    "Wednesday"
+  ],
+  "val_period": [
+    "Wednesday-Afternoon"
+  ],
+  "test_period": [
+    "Thursday",
+    "Friday"
+  ],
+  "model_type": "Baseline-Scaffolding",
+  "hyperparameters": {
+    "chunk_size": 100000,
+    "random_state": 42
+  },
+  "metrics": {
+    "status": "schema_verified"
+  },
+  "target_classes": [
+    "BENIGN",
+    "Bot",
+    "DDoS",
+    "PortScan"
+  ],
+  "unseen_test_classes": [
+    "Web Attack",
+    "Botnet",
+    "PortScan",
+    "DDoS"
+  ],
+  "random_seed": 42,
+  "python_version": "3.11.16",
+  "sklearn_version": "1.5.2",
+  "environment": "Local-Audit",
+  "artifact_hash": null
+}
